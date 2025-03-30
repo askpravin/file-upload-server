@@ -65,4 +65,3 @@ This README provides:
 5. Dependency information
 6. License placeholder
 
-You can customize it further with more specific details about your project.
