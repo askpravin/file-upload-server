@@ -1,29 +1,22 @@
-// Import required Node.js path module for handling file paths
+// Import required modules
 const path = require("path");
-// Import Express.js framework
 const express = require("express");
-// Import multer middleware for handling file uploads
 const multer = require("multer");
+const fs = require('fs');
 
-// Configure multer storage settings for file uploads
+// Configure multer storage settings
 const storage = multer.diskStorage({
-  // Set the destination directory for uploaded files
   destination: function (req, file, cb) {
     const uploadDir = path.join(__dirname, 'uploads');
-    // Create uploads directory if it doesn't exist
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
     return cb(null, uploadDir);
   },
-  // Generate unique filenames for uploaded files using timestamp
   filename: function (req, file, cb) {
     return cb(null, `${Date.now()}-${file.originalname}`);
   },
 });
-
-// Add fs module at the top with other imports
-const fs = require('fs');
 
 // Create Express application instance
 const app = express();
