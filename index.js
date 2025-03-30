@@ -9,13 +9,21 @@ const multer = require("multer");
 const storage = multer.diskStorage({
   // Set the destination directory for uploaded files
   destination: function (req, file, cb) {
-    return cb(null, "./uploads/");
+    const uploadDir = path.join(__dirname, 'uploads');
+    // Create uploads directory if it doesn't exist
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    return cb(null, uploadDir);
   },
   // Generate unique filenames for uploaded files using timestamp
   filename: function (req, file, cb) {
     return cb(null, `${Date.now()}-${file.originalname}`);
   },
 });
+
+// Add fs module at the top with other imports
+const fs = require('fs');
 
 // Create Express application instance
 const app = express();
