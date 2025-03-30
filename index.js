@@ -19,18 +19,20 @@ const storage = multer.diskStorage({
 
 // Create Express application instance
 const app = express();
-// Define server port number
-const port = 3000;
+// Define server port number using environment variable or default to 3000
+const port = process.env.PORT || 3000;
 // Initialize multer middleware with configured storage
 const upload = multer({ storage })
 
 // Set the directory for view templates
-app.set("views", path.resolve("./ views"));
+app.set("views", path.join(__dirname, "views"));
 // Set EJS as the template engine
 app.set("view engine", "ejs");
-// Set the correct views directory path
-const path = require('path');
-app.set('views', path.join(__dirname, 'views'));
+
+// Remove these duplicate lines
+// const path = require('path');
+// app.set('views', path.join(__dirname, 'views'));
+
 // Enable JSON parsing middleware
 app.use(express.json());
 
