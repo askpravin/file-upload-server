@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Successful</title>
+</head>
+<body>
+    <h1>File Uploaded Successfully</h1>
+    <p>Original Name: <%= fileInfo.originalName %></p>
+    <p>Saved As: <%= fileInfo.fileName %></p>
+    <p>File Size: <%= (fileInfo.fileSize / 1024).toFixed(2) %> KB</p>
+    <p>MIME Type: <%= fileInfo.mimeType %></p>
+    <p>File Path: <%= fileInfo.filePath %></p>
+    <a href="/">Upload another file</a>
+</body>
+</html>

@@ -1,45 +1,61 @@
+// Import required Node.js path module for handling file paths
 const path = require("path");
+// Import Express.js framework
 const express = require("express");
+// Import multer middleware for handling file uploads
 const multer = require("multer");
 
+// Configure multer storage settings for file uploads
 const storage = multer.diskStorage({
+  // Set the destination directory for uploaded files
   destination: function (req, file, cb) {
     return cb(null, "./uploads/");
   },
+  // Generate unique filenames for uploaded files using timestamp
   filename: function (req, file, cb) {
     return cb(null, `${Date.now()}-${file.originalname}`);
   },
 });
-;
 
+// Create Express application instance
 const app = express();
+// Define server port number
 const port = 3000;
+// Initialize multer middleware with configured storage
 const upload = multer({ storage })
-// This creates a multer instance that will store uploaded files in the './uploads/' directory
 
-
+// Set the directory for view templates
 app.set("views", path.resolve("./ views"));
+// Set EJS as the template engine
 app.set("view engine", "ejs");
-app.set("views", path.resolve("./views")); // Removed the extra space
+// Set the correct views directory path
+app.set("views", path.resolve("./views"));
+// Enable JSON parsing middleware
 app.use(express.json());
 
-// This middleware processes and parses incoming form data from HTTP POST requests
-// When set to false, it uses a simple parser
-// When set to true, it can handle complex form data with nested fields
+// Enable URL-encoded data parsing with simple parser
 app.use(express.urlencoded({ extended: false }));
 
+// Define route handler for homepage
 app.get("/", (req, res) => {
   return res.render("homepage");
 });
 
-app.post("/upload", upload.single("profileImage"), (req, res) => {
-  // This retrieves the uploaded file from the request object
-  console.log(req.file);
-  console.log(req.body);
-  // You can now process the file as needed, such as saving it to a database or performing some other action
-  return res.redirect("/"); // Redirect back to the homepage after processing the form
+// Handle file upload POST requests
+app.post('/upload', upload.single('profileImage'), (req, res) => {
+    const fileInfo = {
+        originalName: req.file.originalname,
+        fileName: req.file.filename,
+        fileSize: req.file.size,
+        filePath: req.file.path,
+        mimeType: req.file.mimetype
+    };
+    
+    // Render a new view with the file information
+    res.render('upload-success', { fileInfo });
 });
 
+// Start the server and listen on specified port
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
