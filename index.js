@@ -7,7 +7,7 @@ const fs = require('fs');
 // Configure multer storage settings
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const uploadDir = path.join(__dirname, 'uploads');
+    const uploadDir = path.join(process.env.RENDER_INTERNAL_PATH || __dirname, 'uploads');
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     return cb(null, `${Date.now()}-${file.originalname}`);
-  },
+  }
 });
 
 // Create Express application instance
