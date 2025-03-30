@@ -8,5 +8,7 @@ services:
       - key: NODE_ENV
         value: production
       - key: PORT
-        value: 3000
+        value: 10000
     engine: ejs
+    healthCheckPath: /
+    gracePeriodSeconds: 30
