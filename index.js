@@ -29,7 +29,8 @@ app.set("views", path.resolve("./ views"));
 // Set EJS as the template engine
 app.set("view engine", "ejs");
 // Set the correct views directory path
-app.set("views", path.resolve("./views"));
+const path = require('path');
+app.set('views', path.join(__dirname, 'views'));
 // Enable JSON parsing middleware
 app.use(express.json());
 
